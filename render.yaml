@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: hazard-watch
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: INGEST_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: hazard-watch-db
+          property: connectionString
+databases:
+  - name: hazard-watch-db
+    plan: free
